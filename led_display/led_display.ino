@@ -173,8 +173,9 @@ bool* ascii[100] = {space, excl, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, 
                     P, Q, R, S, T, U, V, W, X, Y, Z};
 
-unsigned long str_timer;
-int curr_str_ptr;
+int str_state = 0;
+unsigned long str_timer = 0;
+int curr_str_ptr = 0;
 
 void setup() {
   // initialize all leds as outputs
@@ -188,7 +189,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  writeString("HAPPY BIRTHDAY DAISY!", 400                   );
+  writeString("HAPPY BIRTHDAY DAISY!",400);
   delay(1000);
 }
 
@@ -197,11 +198,19 @@ void writeString(char* str, int delay_time) {
    * and a delay in milliseconds, blinks
    * out the pattern using writeChar
    */
-  for (int i=0; i<strlen(str); i++) {
-    writeChar(str[i]);
-    delay(delay_time);
+//  for (int i=0; i<strlen(str); i++) {
+//    writeChar(str[i]);
+//    delay(delay_time);
+//    clearLEDs();
+//    delay(20);
+//  }
+  if (millis() - str_timer > delay_time) {
     clearLEDs();
     delay(20);
+    str_timer = millis();
+    writeChar(str[i]);
+    curr_str_ptr += 1;
+    curr_str_ptr %= strlen(str);
   }
 }
 
