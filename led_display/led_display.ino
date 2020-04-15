@@ -2,6 +2,7 @@
 
 // int led_pins[] = {0, 1, 2, 3, 4,  |||  5, 6, 7, 8, 9, ||| 10, 14, 15, 16, 18};
 int led_pins[] = {0, 5, 10, 1, 6, 14, 2, 7, 15, 3, 8, 16, 4, 9, 18};
+int pot_pin = A1; // pot for controlling speed
 
 bool space[15] = {0};
 
@@ -189,8 +190,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  writeString("HAPPY BIRTHDAY DAISY!",400);
-  delay(1000);
+  writeString("HAPPY BIRTHDAY DAISY!",analogRead(pot_pin));
 }
 
 void writeString(char* str, int delay_time) {
@@ -208,7 +208,7 @@ void writeString(char* str, int delay_time) {
     clearLEDs();
     delay(20);
     str_timer = millis();
-    writeChar(str[i]);
+    writeChar(str[curr_str_ptr]);
     curr_str_ptr += 1;
     curr_str_ptr %= strlen(str);
   }
